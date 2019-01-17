@@ -1,0 +1,20 @@
+FROM nvidia/cuda:9.0-runtime-ubuntu16.04
+
+
+ENV NODE_VERSION 8.10.0
+ENV LOCAL_SRC /tmp
+
+RUN apt-get update \
+    && apt-get install -y curl tar build-essential python \
+    && cd ${LOCAL_SRC} \
+    && curl -s -L -O https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz \
+    && tar -zxvf node-v${NODE_VERSION}.tar.gz \
+    && cd node-v${NODE_VERSION}/ \
+    && ./configure \
+    && make \ 
+    && make install \
+    && cd .. \
+    && rm node-v${NODE_VERSION}.tar.gz
+
+RUN node -v
+RUN npm -v
